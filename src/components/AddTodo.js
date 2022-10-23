@@ -1,37 +1,35 @@
 import React, { useState } from "react";
-import { Todo } from "./Todo";
-import "../styles/App.css";
 
-const AddTodo = ({ dispatch, state }) => {
-  const [text, setText] = useState("");
+const AddTodo = ({ dispatch }) => {
+  const [input, setInput] = useState("");
 
-  function handleOnSubmit(e) {
-    e.preventDefault();
-    dispatch({ type: "ADD", value: text });
-    setText("");
+  function handleInput(e) {
+    setInput(e.target.value);
   }
 
-  function handleDelete(id) {
-    const newData = state.todos.filter((e, i) => e.id !== id);
-    dispatch({ type: "DELETE", data: newData });
+  function addTodo(e) {
+    e.preventDefault();
+    dispatch({
+      type: "Add",
+      payload: {
+        title: input,
+        id: Date.now()
+      }
+    });
   }
 
   return (
     <>
-      <form id="todo-form" onSubmit={(e) => handleOnSubmit(e)}>
+      <form id="todo-form" onSubmit={addTodo}>
         <input
           type="text"
+          placeholder="enter title"
           id="todo-input"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
+          value={input}
+          onChange={handleInput}
         />
-        <button className="addBtn">Add</button>
+        <button type="submit">Add</button>
       </form>
-      <div className="todoList">
-        {state.todos.map((e, i) => (
-          <Todo key={e.id} {...e} handleDelete={handleDelete} />
-        ))}
-      </div>
     </>
   );
 };

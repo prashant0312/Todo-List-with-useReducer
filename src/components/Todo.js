@@ -1,10 +1,21 @@
 import React from "react";
-import "../styles/App.css";
-const Todo = ({ title, id, handleDelete }) => {
+
+const Todo = ({ ele, dispatch }) => {
+  function deleteTodo(id) {
+    dispatch({
+      type: "Delete",
+      payload: {
+        id: id
+      }
+    });
+  }
+
   return (
+    
     <div className="todo">
-      <div className="todo-title">{title}</div>
-      <button className="todo-delete" onClick={() => handleDelete(id)}>
+      <div className="todo-title">{ele.title}</div>
+    
+      <button className="todo-delete" onClick={() => deleteTodo(ele.id)}>
         Delete
       </button>
     </div>
