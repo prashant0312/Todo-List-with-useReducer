@@ -1,37 +1,37 @@
-import React, { useState } from "react";
+import React,{useState} from "react";
+
 
 const AddTodo = ({ dispatch }) => {
-  const [input, setInput] = useState("");
 
-  function handleInput(e) {
-    setInput(e.target.value);
-  }
+    const [taskArr,setTaskArr] =useState([]);
+    const [inputVal,setVal] = useState("");
+    const [DateId,setId] = useState( new Date().getTime().toString());
 
-  function addTodo(e) {
-    e.preventDefault();
-    dispatch({
-      type: "Add",
-      payload: {
-        title: input,
-        id: Date.now()
-      }
-    });
-  }
+    function submitHandler (e) {
+        e.preventDefault();  
+        setId( new Date().getTime().toString()) ;
+        setTaskArr(
+            [...taskArr,
+                {id:DateId,title:inputVal}
+            ]
+        )
+        dispatch({type:"ADD",payload:{title:inputVal,id:DateId}});
+        setVal("");
+    }
 
-  return (
-    <>
-      <form id="todo-form" onSubmit={addTodo}>
-        <input
-          type="text"
-          placeholder="enter title"
-          id="todo-input"
-          value={input}
-          onChange={handleInput}
-        />
-        <button type="submit">Add</button>
-      </form>
-    </>
-  );
-};
 
-export { AddTodo };
+    function inputFun(e) {
+        setVal(e.target.value);
+    }
+
+    return (
+        <>
+        <form id="todo-form" onSubmit={submitHandler}>
+            <input id="todo-input" type="textarea" required onChange={inputFun} value={inputVal}/>
+            <button type="submit">submit</button>
+        </form>
+        </>
+    )
+}
+
+export { AddTodo }
